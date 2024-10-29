@@ -137,7 +137,6 @@ export default function Chat() {
                   : "bg-slate-700 p-3 m-2 rounded-lg"
               }`}
             >
-              {m.role === "user" ? "User: " : "AI: "}
               {m.content}
             </div>
           ))}

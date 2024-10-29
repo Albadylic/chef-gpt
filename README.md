@@ -1,36 +1,26 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## ChefGPT
 
-## Getting Started
+This app was created during my learning on Encode's AI and GPTs Bootcamp.
 
-First, run the development server:
+In Week 2, we looked at building Web Apps integrated with OpenAI's API. In the second lesson we built a simple chat app where a user could prompt the AI and have a conversation. We looked at adjusting the system prompt to be a chef who would provide a random recipe on request or respond to a prompt.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+I took this concept and went a little further with my implementation. Rather than a random recipe, I wanted to allow a user to choose a cuisine and type of food. They can then click the generate button and the AI will be prompted to respond with a relevant recipe. Like so:
+
+```jsx
+<button
+  className="bg-green-800 p-2 text-white rounded shadow-xl mx-2"
+  disabled={isLoading}
+  onClick={() =>
+    append({
+      role: "user",
+      content: `Give me a recipe for a ${state.cuisine}, ${state.type} meal`,
+    })
+  }
+>
+  Generate Recipe
+</button>
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The append function is from OpenAI's useChat library.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Clicking the generate button will make a POST request to the server (`route.ts`) and return a response by called the ChatGPT API.

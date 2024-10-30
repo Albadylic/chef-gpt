@@ -24,3 +24,7 @@ I took this concept and went a little further with my implementation. Rather tha
 The append function is from OpenAI's useChat library.
 
 Clicking the generate button will make a POST request to the server (`route.ts`) and return a response by called the ChatGPT API.
+
+### Adding images
+
+...

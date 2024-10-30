@@ -70,7 +70,7 @@ export default function Chat() {
   };
 
   return (
-    <>
+    <main>
       <div className="flex justify-center py-2">
         <div className="space-y-4 bg-opacity-25 bg-gray-200 rounded-lg p-4 mx-2">
           <h3 className="text-xl font-semibold">Cuisine</h3>
@@ -151,47 +151,46 @@ export default function Chat() {
         </button>
       </div>
 
-      <div className="flex flex-col w-5/6 max-h-96 py-8 mx-auto stretch overflow-hidden">
-        <div className="overflow-auto w-full" ref={messagesContainerRef}>
-          {messages.map((m) => (
-            <div
-              key={m.id}
-              className={`whitespace-pre-wrap ${
-                m.role === "user"
-                  ? "bg-green-400 p-3 m-2 rounded-lg"
-                  : "bg-slate-400 p-3 m-2 rounded-lg"
-              }`}
-            >
-              {m.content}
+      <div className="flex justify-center py-2">
+        <div className="flex flex-col w-1/2 py-4 stretch overflow-hidden max-h-[42rem]">
+          <div className="overflow-auto w-full" ref={messagesContainerRef}>
+            {messages.map((m) => (
+              <div
+                key={m.id}
+                className={`whitespace-pre-wrap ${
+                  m.role === "user"
+                    ? "bg-green-400 p-3 m-2 rounded-lg"
+                    : "bg-slate-400 p-3 m-2 rounded-lg"
+                }`}
+              >
+                {m.content}
+              </div>
+            ))}
+          </div>
+
+          {isLoading && (
+            <div className="flex justify-end pr-4">
+              <span className="animate-pulse text-2xl">...</span>
             </div>
-          ))}
+          )}
         </div>
 
-        {isLoading && (
-          <div className="flex justify-end pr-4">
-            <span className="animate-pulse text-2xl">...</span>
-          </div>
-        )}
+        <div className="flex justify-center items-center p-4 w-1/2">
+          {imageIsLoading && (
+            <div className="loader">
+              <div className="animate-pulse flex space-x-4">
+                <div className="rounded-full bg-slate-700 h-10 w-10"></div>
+              </div>
+            </div>
+          )}
+          {image && (
+            <img
+              src={`data:image/jpeg;base64,${image}`}
+              className="max-h-96 max-w-96"
+            />
+          )}
+        </div>
       </div>
-
-      {imageIsLoading && (
-        <div className="flex justify-center items-center max-h-96">
-          <div className="loader">
-            <div className="animate-pulse flex space-x-4">
-              <div className="rounded-full bg-slate-700 h-10 w-10"></div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {image && (
-        <div className="flex flex-col p-4 justify-center gap-4 max-h-96">
-          <img
-            src={`data:image/jpeg;base64,${image}`}
-            className="max-h-96 max-w-96"
-          />
-        </div>
-      )}
-    </>
+    </main>
   );
 }

@@ -12,7 +12,7 @@ export async function POST(req: Request) {
   const response = await openai.images.generate({
     model: "dall-e-2",
     prompt: prompt.substring(0, Math.min(prompt.length, 250)),
-    size: "1024x1024",
+    size: "512x512",
     quality: "standard",
     response_format: "b64_json",
     n: 1,

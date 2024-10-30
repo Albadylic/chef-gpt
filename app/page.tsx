@@ -69,31 +69,6 @@ export default function Chat() {
     });
   };
 
-  if (imageIsLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="loader">
-          <div className="animate-pulse flex space-x-4">
-            <div className="rounded-full bg-slate-700 h-10 w-10"></div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (image) {
-    return (
-      <div className="flex flex-col p-4 justify-center gap-4 h-screen">
-        <img src={`data:image/jpeg;base64,${image}`} />
-        <textarea
-          className="mt-4 w-full text-white bg-black h-64"
-          value={messages[messages.length - 1].content}
-          readOnly
-        />
-      </div>
-    );
-  }
-
   return (
     <>
       <div className="flex justify-center py-2">
@@ -156,6 +131,7 @@ export default function Chat() {
           className="bg-blue-500 p-2 text-white rounded shadow-xl"
           disabled={isLoading || messages.length < 1}
           onClick={async () => {
+            setImage(null);
             setImageIsLoading(true);
             const response = await fetch("api/images", {
               method: "POST",
@@ -169,22 +145,21 @@ export default function Chat() {
             const data = await response.json();
             setImage(data);
             setImageIsLoading(false);
-            setImageIsLoading(false);
           }}
         >
           Generate image
         </button>
       </div>
 
-      <div className="flex flex-col w-5/6 h-screen py-8 mx-auto stretch overflow-hidden">
+      <div className="flex flex-col w-5/6 max-h-96 py-8 mx-auto stretch overflow-hidden">
         <div className="overflow-auto w-full" ref={messagesContainerRef}>
           {messages.map((m) => (
             <div
               key={m.id}
               className={`whitespace-pre-wrap ${
                 m.role === "user"
-                  ? "bg-green-700 p-3 m-2 rounded-lg"
-                  : "bg-slate-700 p-3 m-2 rounded-lg"
+                  ? "bg-green-400 p-3 m-2 rounded-lg"
+                  : "bg-slate-400 p-3 m-2 rounded-lg"
               }`}
             >
               {m.content}
@@ -198,6 +173,25 @@ export default function Chat() {
           </div>
         )}
       </div>
+
+      {imageIsLoading && (
+        <div className="flex justify-center items-center max-h-96">
+          <div className="loader">
+            <div className="animate-pulse flex space-x-4">
+              <div className="rounded-full bg-slate-700 h-10 w-10"></div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {image && (
+        <div className="flex flex-col p-4 justify-center gap-4 max-h-96">
+          <img
+            src={`data:image/jpeg;base64,${image}`}
+            className="max-h-96 max-w-96"
+          />
+        </div>
+      )}
     </>
   );
 }
